@@ -1,6 +1,6 @@
-﻿using FoodApp.API.Data;
-using FoodApp.API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using StayCation.API.Data;
+using StayCation.API.Models;
 using System.Linq.Expressions;
 
 namespace StayCation.API.Repositories

@@ -1,4 +1,4 @@
-﻿using FoodApp.API.Models;
+﻿using StayCation.API.Models;
 using System.Linq.Expressions;
 
 namespace StayCation.API.Repositories

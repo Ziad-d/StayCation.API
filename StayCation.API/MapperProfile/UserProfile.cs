@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using FoodApp.API.Models;
 using StayCation.API.DTOs.UserDTOs;
+using StayCation.API.Models;
 
 namespace StayCation.API.MapperProfile
 {

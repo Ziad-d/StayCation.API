@@ -1,4 +1,4 @@
-﻿namespace FoodApp.API.Models
+﻿namespace StayCation.API.Models
 {
     public class UserRole : BaseModel
     {

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
-using FoodApp.API.Data;
+using StayCation.API.Data;
 using StayCation.API.MapperProfile;
 using StayCation.API.Repositories;
 

@@ -1,8 +1,8 @@
-﻿using FoodApp.API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using StayCation.API.Models;
 using System.Reflection;
 
-namespace FoodApp.API.Data
+namespace StayCation.API.Data
 {
     public class Context : DbContext
     {
@@ -24,5 +24,6 @@ namespace FoodApp.API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<RoleFeature> RoleFeatures { get; set; }
     }
 }

@@ -18,19 +18,19 @@ namespace StayCation.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResultDTO>> Register(UserRegisterDTO user)
+        public async Task<ResultDTO> Register(UserRegisterDTO user)
         {
-            var x = await _mediator.Send(new RegisterUserCommand(user));
+            var result = await _mediator.Send(new RegisterUserCommand(user));
 
-            return Ok(x);
+            return ResultDTO.Success(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResultDTO>> Login(UserLoginDTO user)
+        public async Task<ResultDTO> Login(UserLoginDTO user)
         {
-            var x = await _mediator.Send(new LoginUserCommand(user));
+            var result = await _mediator.Send(new LoginUserCommand(user));
 
-            return Ok(x);
+            return ResultDTO.Success(result);
         }
     }
 }

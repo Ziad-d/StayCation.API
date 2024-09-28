@@ -1,7 +1,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using AutoMapper;
-using FoodApp.API.Data;
+using StayCation.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

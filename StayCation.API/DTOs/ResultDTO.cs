@@ -6,7 +6,7 @@
         public dynamic Data { get; set; }
         public string Message { get; set; }
 
-        public static ResultDTO Sucess(dynamic data, string message = "Success Operation")
+        public static ResultDTO Success(dynamic data, string message = "Success Operation")
         {
             return new ResultDTO
             {
@@ -16,7 +16,7 @@
             };
         }
 
-        public static ResultDTO Faliure(string message = "Invalid Operation")
+        public static ResultDTO Failure(string message = "Invalid Operation")
         {
             return new ResultDTO
             {

@@ -22,13 +22,13 @@ namespace StayCation.API.CQRS.Users.Commands
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(request.UserLoginDTO.Password, user.Password))
             {
-                return ResultDTO.Faliure("Invalid credentials");
+                return ResultDTO.Failure("Invalid credentials");
             }
 
             var userDTO = user.MapOne<UserDTO>();
             var token = TokenGenerator.GenerateToken(userDTO);
 
-            return ResultDTO.Sucess(token, "User is logged in");
+            return ResultDTO.Success(token, "User is logged in");
         }
     }
 }

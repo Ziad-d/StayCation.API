@@ -2,16 +2,14 @@
 using StayCation.API.CQRS.Roles.Queries;
 using StayCation.API.DTOs;
 using StayCation.API.DTOs.RoleFeatureDTOs;
-using StayCation.API.Enums;
-using StayCation.API.Exceptions;
 using StayCation.API.Models;
 using StayCation.API.Repositories;
 
 namespace StayCation.API.CQRS.RoleFeatures.Orchestrators
 {
-    public record AssignFeaturesToRoleOrchestrator(FeaturesToRoleDTO FeaturesToRoleDTO) : IRequest<bool>;
+    public record AssignFeaturesToRoleOrchestrator(FeaturesToRoleDTO FeaturesToRoleDTO) : IRequest<ResultDTO>;
 
-    public class AssignFeaturesToRoleOrchestratorHandler : IRequestHandler<AssignFeaturesToRoleOrchestrator, bool>
+    public class AssignFeaturesToRoleOrchestratorHandler : IRequestHandler<AssignFeaturesToRoleOrchestrator, ResultDTO>
     {
         private readonly IRepository<RoleFeature> _repository;
         private readonly IMediator _mediator;
@@ -22,18 +20,18 @@ namespace StayCation.API.CQRS.RoleFeatures.Orchestrators
             _mediator = mediator;
         }
 
-        public async Task<bool> Handle(AssignFeaturesToRoleOrchestrator request, CancellationToken cancellationToken)
+        public async Task<ResultDTO> Handle(AssignFeaturesToRoleOrchestrator request, CancellationToken cancellationToken)
         {
             if (request == null || request.FeaturesToRoleDTO == null || !request.FeaturesToRoleDTO.Features.Any())
             {
-                throw new BusinessException(ErrorCode.InvalidData, "Invalid inputs");
+                return ResultDTO.Failure("Invalid inputs!");
             }
 
             var role = await _mediator.Send(new GetRoleByIdQuery(request.FeaturesToRoleDTO.RoleId));
             //var role = await _repository.GetByIdAsync(request.addFeaturesToRuleDTO.RoleId);
             if (role == null)
             {
-                throw new BusinessException(ErrorCode.InvalidRoleID, "Invalid RoleID!");
+                return ResultDTO.Failure("Invalid RoleID!");
             }
 
             foreach (var feature in request.FeaturesToRoleDTO.Features)
@@ -56,7 +54,7 @@ namespace StayCation.API.CQRS.RoleFeatures.Orchestrators
 
             await _repository.SaveChangesAsync();
 
-            return true;
+            return ResultDTO.Success("Features assigned to role successfully!");
         }
     }
 }

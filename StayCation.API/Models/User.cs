@@ -11,6 +11,6 @@
         public string Password { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public List<UserRole> UserRoles { get; set; }
+        public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }

@@ -12,7 +12,7 @@ namespace StayCation.API.Repositories
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task AddRange(List<T> list);
         void Add_Range(List<T> list);
-        T GetByID(int id);
+        Task<T> GetByIDAsync(int id);
         T GetWithTrackinByID(int id);
         Task<T> AddAsync(T entity);
         T Add(T entity);

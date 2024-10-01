@@ -2,6 +2,7 @@
 using StayCation.API.Data;
 using StayCation.API.Models;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace StayCation.API.Repositories
 {
@@ -51,7 +52,12 @@ namespace StayCation.API.Repositories
 
         public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return GetAll().Where(predicate);
+            var query = GetAll().Where(predicate);
+            if (typeof(T) == typeof(User))
+            {
+                query = query.Include(u => ((User)(object)u).UserRoles);
+            }
+            return query;
         }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, string model)
@@ -96,9 +102,9 @@ namespace StayCation.API.Repositories
             return _context.Set<T>().Where(x => !x.Deleted).AsNoTracking();
         }
 
-        public T GetByID(int id)
+        public async Task<T> GetByIDAsync(int id)
         {
-            return GetAll().FirstOrDefault(x => x.Id == id);
+            return await GetAll().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public T GetWithTrackinByID(int id)

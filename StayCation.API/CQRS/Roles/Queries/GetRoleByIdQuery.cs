@@ -1,15 +1,14 @@
 ﻿using MediatR;
+using StayCation.API.DTOs;
 using StayCation.API.DTOs.RoleDTOs;
-using StayCation.API.Enums;
-using StayCation.API.Exceptions;
 using StayCation.API.Helpers;
 using StayCation.API.Models;
 using StayCation.API.Repositories;
 
 namespace StayCation.API.CQRS.Roles.Queries
 {
-    public record GetRoleByIdQuery(int id) : IRequest<RoleDTO>;
-    public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, RoleDTO>
+    public record GetRoleByIdQuery(int id) : IRequest<ResultDTO>;
+    public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, ResultDTO>
     {
         private readonly IRepository<Role> _repository;
 
@@ -17,15 +16,17 @@ namespace StayCation.API.CQRS.Roles.Queries
         {
             _repository = repository;
         }
-        public async Task<RoleDTO> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResultDTO> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
-                throw new BusinessException(ErrorCode.InvalidRoleID, "Invalid RoleID!");
+                return ResultDTO.Failure("Invalid RoleID!");
             }
 
-            var role = _repository.GetByID(request.id).MapOne<RoleDTO>();
-            return role;
+            var role = await _repository.GetByIDAsync(request.id);
+            var mappedRole = role.MapOne<RoleDTO>();
+                
+            return ResultDTO.Success(mappedRole, "Role has been retrieved successfully!");
         }
     }
 }

@@ -1,8 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StayCation.API.Attributes;
+using StayCation.API.CQRS.UserRoles.Orchestrators;
 using StayCation.API.CQRS.Users.Commands;
 using StayCation.API.DTOs;
 using StayCation.API.DTOs.UserDTOs;
+using StayCation.API.DTOs.UserRoleDTOs;
+using StayCation.API.Enums;
 
 namespace StayCation.API.Controllers
 {
@@ -30,7 +35,17 @@ namespace StayCation.API.Controllers
         {
             var result = await _mediator.Send(new LoginUserCommand(user));
 
-            return ResultDTO.Success(result);
+            return result;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [TypeFilter(typeof(CustomizedAuthorize), Arguments = new object[] { Feature.AssignRolesToUser })]
+        public async Task<ResultDTO> AssignRolesToUser(RolesToUserDTO rolesToUserDTO)
+        {
+            var result = await _mediator.Send(new AssignRolesToUserOrchestrator(rolesToUserDTO));
+
+            return result;
         }
     }
 }

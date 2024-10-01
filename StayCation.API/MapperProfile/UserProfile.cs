@@ -9,7 +9,11 @@ namespace StayCation.API.MapperProfile
         public UserProfile()
         {
             CreateMap<UserRegisterDTO, User>().ReverseMap();
-            CreateMap<UserDTO, User>().ReverseMap();
+
+            CreateMap<User, UserDTO>()
+                .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.RoleId).ToList()));
+
+            CreateMap<User, UserReturnDTO>().ReverseMap();
         }
     }
 }

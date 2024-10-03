@@ -20,18 +20,6 @@ namespace StayCation.API.Helpers
                 new Claim(CustomClaimTypes.UserName, userDTO.UserName)
             };
 
-            if (userDTO.RoleIds != null && userDTO.RoleIds.Any())
-            {
-                foreach (var roleId in userDTO.RoleIds)
-                {
-                    claims.Add(new Claim(CustomClaimTypes.RoleId, roleId.ToString()));
-                }
-            }
-            else
-            {
-                Console.WriteLine("RoleIds are null or empty");
-            }
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

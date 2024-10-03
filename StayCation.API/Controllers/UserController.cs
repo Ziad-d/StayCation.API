@@ -37,15 +37,5 @@ namespace StayCation.API.Controllers
 
             return result;
         }
-
-        [HttpPost]
-        [Authorize]
-        [TypeFilter(typeof(CustomizedAuthorize), Arguments = new object[] { Feature.AssignRolesToUser })]
-        public async Task<ResultDTO> AssignRolesToUser(RolesToUserDTO rolesToUserDTO)
-        {
-            var result = await _mediator.Send(new AssignRolesToUserOrchestrator(rolesToUserDTO));
-
-            return result;
-        }
     }
 }

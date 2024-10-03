@@ -20,7 +20,7 @@ namespace StayCation.API.CQRS.RoleFeatures.Queries
             var hasAccess = await _repository.Get(r => !r.Deleted &&
                         r.RoleID == request.roleID &&
                         r.Feature == request.feature)
-                        .AnyAsync(cancellationToken);
+                        .AnyAsync();
 
             return hasAccess;
         }

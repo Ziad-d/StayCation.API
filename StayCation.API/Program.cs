@@ -75,12 +75,12 @@ builder.Services.AddAuthentication(opts =>
     };
 });
 
-builder.Services.AddDbContext<Context>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
-    .EnableSensitiveDataLogging();
-});
+//builder.Services.AddDbContext<Context>(option =>
+//{
+//    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+//    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+//    .EnableSensitiveDataLogging();
+//});
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly())); // instead name of each one 
 builder.Services.AddHttpContextAccessor();

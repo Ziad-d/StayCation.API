@@ -1,8 +1,8 @@
-﻿using AutoMapper.Features;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StayCation.API.Constants;
 using StayCation.API.CQRS.RoleFeatures.Queries;
+using StayCation.API.CQRS.UserRoles.Queries;
 using StayCation.API.Enums;
 
 namespace StayCation.API.Attributes
@@ -22,19 +22,38 @@ namespace StayCation.API.Attributes
         {
             var loggedUser = context.HttpContext.User;
 
-            var roleID = loggedUser.FindFirst(CustomClaimTypes.RoleId);
+            var userIdClaim = loggedUser.FindFirst(CustomClaimTypes.Id)?.Value;
 
-            if (roleID is null || string.IsNullOrEmpty(roleID.Value))
+            if (string.IsNullOrEmpty(userIdClaim))
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("User is not authenticated.");
             }
 
-            var query = new CheckRoleFeatureAccessQuery(int.Parse(roleID.Value), _feature);
-            bool hasAccess = await _mediator.Send(query);
+            int userId = int.Parse(userIdClaim);
+
+            var roleIDs = await _mediator.Send(new GetRolesByUserIdQuery(userId));
+
+            if (roleIDs == null || !roleIDs.Any())
+            {
+                throw new UnauthorizedAccessException("No roles found for the user.");
+            }
+
+            bool hasAccess = false;
+
+            foreach (var roleID in roleIDs)
+            {
+                var query = new CheckRoleFeatureAccessQuery(roleID, _feature);
+                hasAccess = await _mediator.Send(query);
+
+                if (hasAccess)
+                {
+                    break;
+                }
+            }
 
             if (!hasAccess)
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("User does not have access to this feature.");
             }
 
             base.OnActionExecuting(context);

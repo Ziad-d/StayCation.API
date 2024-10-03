@@ -25,5 +25,7 @@ namespace StayCation.API.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RoleFeature> RoleFeatures { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
     }
 }

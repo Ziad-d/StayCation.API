@@ -1,18 +1,17 @@
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
 using AutoMapper;
-using StayCation.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StayCation.API;
-using StayCation.API.Constants;
-using StayCation.API.Helpers;
-using StayCation.API.Middlewares;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using StayCation.API.VerticalSlicing.Common.Constants;
+using StayCation.API.VerticalSlicing.Common;
+using StayCation.API.VerticalSlicing.Common.Middlewares;
+using StayCation.API.VerticalSlicing.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,7 +89,12 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
     builder.RegisterModule(new AutofacModule()));
 
+
+
 var app = builder.Build();
+
+
+
 MapperHelper.Mapper = app.Services.GetService<IMapper>();
 app.UseMiddleware<GlobalErrorHandlerMiddleware>();
 app.UseMiddleware<TransactionMiddleware>();

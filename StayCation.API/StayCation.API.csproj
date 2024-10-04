@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Config\" />
+    <Folder Include="VerticalSlicing\Features\Common\" />
   </ItemGroup>
 
 </Project>

@@ -7,15 +7,18 @@ using StayCation.API.VerticalSlicing.Features.Users.Register;
 
 namespace StayCation.VerticalSlicing.Features.Users.Register.Commands
 {
-    public record RegisterUserCommand
-        (string FirstName 
-        ,string LastName 
-        ,string UserName
-        ,string EmailAddress
-        ,string PhoneNumber
-        ,string Country
-        ,string Password
-        ,string ConfirmPassword) : IRequest<ResultDTO>;
+    public class RegisterUserCommand() : IRequest<ResultDTO>
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Country { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
+
     public class RegisterUserCommandHandler : BaseRequestHandler<User, RegisterUserCommand, ResultDTO>
     {
         public RegisterUserCommandHandler(RequestParameters<User> requestParameters)
@@ -40,7 +43,17 @@ namespace StayCation.VerticalSlicing.Features.Users.Register.Commands
 
             var user = request.MapOne<User>();
             user.Password = PasswordHelper.CreatePasswordHash(request.Password);
+            user.OTP = OTPGenerator.CreateOTP();
             user = await _repository.AddAsync(user);
+
+            EmailSenderDTO emailSenderDTO = new EmailSenderDTO()
+            {
+                ToEmail = user.EmailAddress,
+                Subject = "Verify your email",
+                Body = $"Please verify your email address by OTP : {user.OTP}"
+            };
+
+            EmailSender.SendEmail(emailSenderDTO);
 
             var mappedUser = user.MapOne<UserRegisterDTO>();
 

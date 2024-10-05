@@ -18,7 +18,7 @@ namespace StayCation.API.VerticalSlicing.Common.Helpers
             {
                 new Claim(CustomClaimTypes.Id, userDTO.Id.ToString()),
                 new Claim(CustomClaimTypes.UserName, userDTO.UserName),
-                new Claim(CustomClaimTypes.Email, userDTO.Email)
+                new Claim(CustomClaimTypes.Email, userDTO.EmailAddress)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor

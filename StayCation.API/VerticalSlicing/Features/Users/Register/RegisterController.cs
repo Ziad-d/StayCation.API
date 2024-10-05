@@ -21,7 +21,7 @@ namespace StayCation.API.VerticalSlicing.Features.Users.Register
         {
             var result = await _mediator.Send(user.MapOne<RegisterUserCommand>());
 
-            return ResultDTO.Success(result);
+            return result;
         }
 
     }

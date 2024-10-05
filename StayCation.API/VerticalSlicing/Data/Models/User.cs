@@ -9,6 +9,8 @@
         public string PhoneNumber { get; set; }
         public string Country { get; set; }
         public string Password { get; set; }
+        public string OTP { get; set; }
+        public bool IsEmailVerified { get; set; } = false;
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public List<UserRole> UserRoles { get; set; } = new List<UserRole>();

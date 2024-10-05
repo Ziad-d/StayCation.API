@@ -7,7 +7,11 @@ using StayCation.API.VerticalSlicing.Features.Users.Login;
 
 namespace StayCation.VerticalSlicing.Features.Users.Login.Commands
 {
-    public record LoginUserCommand(UserLoginDTO UserLoginDTO) : IRequest<ResultDTO>;
+    public class LoginUserCommand() : IRequest<ResultDTO>
+    {
+        public string EmailAddress { get; set; }
+        public string Password { get; set; }
+    }
 
     public class LoginUserCommandHandler : BaseRequestHandler<User, LoginUserCommand, ResultDTO>
     {
@@ -18,11 +22,12 @@ namespace StayCation.VerticalSlicing.Features.Users.Login.Commands
 
         public override async Task<ResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _repository.First(c => c.EmailAddress == request.UserLoginDTO.EmailAddress);
+            var user = await _repository.First(u => u.EmailAddress == request.EmailAddress
+                                                    && u.IsEmailVerified);
 
-            if (user is null || !BCrypt.Net.BCrypt.Verify(request.UserLoginDTO.Password, user.Password))
+            if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
-                return ResultDTO.Failure("Invalid credentials");
+                return ResultDTO.Failure("Email or Password is incorrect");
             }
 
             var userDTO = user.MapOne<UserForTokenDTO>();

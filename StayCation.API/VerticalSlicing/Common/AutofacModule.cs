@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using StayCation.API.VerticalSlicing.Common.DTOs;
 using StayCation.API.VerticalSlicing.Common.MapperProfile;
 using StayCation.API.VerticalSlicing.Data.Data;
 using StayCation.API.VerticalSlicing.Data.Repositories;
@@ -24,13 +25,21 @@ namespace StayCation.API.VerticalSlicing.Common
 
                 return new Context(optionsBuilder.Options);
             }).InstancePerLifetimeScope();
+
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
             builder.Register(context => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<UserProfile>();
-                cfg.AddProfile<RoleProfile>();
+                cfg.AddProfile<AdminProfile>();
             }).CreateMapper()).As<IMapper>().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<UserState>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ControllereParameters>().InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(RequestParameters<>)).InstancePerLifetimeScope();
         }
     }
 }

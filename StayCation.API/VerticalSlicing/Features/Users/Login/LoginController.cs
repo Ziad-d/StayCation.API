@@ -20,8 +20,7 @@ namespace StayCation.API.VerticalSlicing.Features.Users.Login
         public async Task<ResultDTO> Login(UserLoginRequest user)
         {
 
-            var UserLoginDTO = user.MapOne<UserLoginDTO>();
-            var result = await _mediator.Send(new LoginUserCommand(UserLoginDTO));
+            var result = await _mediator.Send(user.MapOne<LoginUserCommand>());
 
             return result;
         }

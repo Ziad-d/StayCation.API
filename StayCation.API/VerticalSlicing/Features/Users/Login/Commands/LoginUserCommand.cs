@@ -23,13 +23,16 @@ namespace StayCation.VerticalSlicing.Features.Users.Login.Commands
         public override async Task<ResultDTO> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _repository.First(u => u.EmailAddress == request.EmailAddress
-                                                    && u.IsEmailVerified);
+                                                    //&& u.IsEmailVerified
+                                                    );
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
                 return ResultDTO.Failure("Email or Password is incorrect");
             }
-
+            _userState.Id = user.Id.ToString();
+            _userState.Email = user.EmailAddress;
+            _userState.UserName = user.UserName;
             var userDTO = user.MapOne<UserForTokenDTO>();
             var token = TokenGenerator.GenerateToken(userDTO);
 

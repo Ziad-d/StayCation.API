@@ -12,6 +12,12 @@ using StayCation.API.VerticalSlicing.Common.Constants;
 using StayCation.API.VerticalSlicing.Common;
 using StayCation.API.VerticalSlicing.Common.Middlewares;
 using StayCation.API.VerticalSlicing.Common.Helpers;
+using Serilog.Sinks.MSSqlServer;
+using Serilog;
+using StayCation.API.VerticalSlicing.Data.Data;
+using StayCation.API.VerticalSlicing.Data;
+using StayCation.API.VerticalSlicing.Common.DTOs;
+using Autofac.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +25,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<Context>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+    .EnableSensitiveDataLogging().AddInterceptors(builder.Services.BuildServiceProvider().GetRequiredService<MyCustomInterceptor>());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -74,12 +86,17 @@ builder.Services.AddAuthentication(opts =>
     };
 });
 
-//builder.Services.AddDbContext<Context>(option =>
-//{
-//    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-//    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
-//    .EnableSensitiveDataLogging();
-//});
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration)
+    //.Enrich.WithMachineName()
+    //.Enrich.WithThreadId()
+    .WriteTo.Console()
+    .WriteTo.MSSqlServer(connectionString: configuration.GetConnectionString("DefaultConnection"),
+        sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs", AutoCreateSqlTable = true })
+    //.WriteTo.Seq("http://localhost:5341/")
+    .CreateLogger();
+
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly())); // instead name of each one 
 builder.Services.AddHttpContextAccessor();

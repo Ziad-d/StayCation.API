@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using StayCation.API.VerticalSlicing.Common.Constants;
 using StayCation.API.VerticalSlicing.Common.DTOs;
 using System.Security.Claims;
@@ -24,6 +25,11 @@ namespace StayCation.API.VerticalSlicing.Common
             _userState.Id = loggedUser?.FindFirst(CustomClaimTypes.Id)?.Value ?? "";
             _userState.Email = loggedUser?.FindFirst(CustomClaimTypes.Email)?.Value ?? "";
             _userState.UserName = loggedUser?.FindFirst(CustomClaimTypes.UserName)?.Value ?? "";
+
+           // Log.Information("User {UserId} ({Email}) made a request to {ControllerName}/{ActionName}",
+           //_userState.Id, _userState.Email, this.ControllerContext.RouteData.Values["controller"], this.ControllerContext.RouteData.Values["action"]);
+
+
         }
     }
 }

@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="VerticalSlicing\Common\wwwroot\" />
     <Folder Include="VerticalSlicing\Features\Common\" />
   </ItemGroup>
 

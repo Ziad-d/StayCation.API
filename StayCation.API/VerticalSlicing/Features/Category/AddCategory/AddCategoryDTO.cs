@@ -1,4 +1,4 @@
-﻿namespace StayCation.API.VerticalSlicing.Common.DTOs.Category
+﻿namespace StayCation.API.VerticalSlicing.Features.Category.AddCategory
 {
     public class AddCategoryDTO
     {

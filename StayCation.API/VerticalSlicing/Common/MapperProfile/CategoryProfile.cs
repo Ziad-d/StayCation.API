@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using StayCation.API.VerticalSlicing.Common.DTOs.Category;
 using StayCation.API.VerticalSlicing.Data.Models;
+using StayCation.API.VerticalSlicing.Features.Category.AddCategory;
 
 namespace StayCation.API.VerticalSlicing.Common.MapperProfile
 {

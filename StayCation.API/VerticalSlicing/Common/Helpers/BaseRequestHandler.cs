@@ -19,7 +19,6 @@ namespace StayCation.API.VerticalSlicing.Common.Helpers
             _mediator = requestParameters.Mediator;
             _userState = requestParameters.UserState;
             _repository = requestParameters.Repository;
-
         }
 
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);

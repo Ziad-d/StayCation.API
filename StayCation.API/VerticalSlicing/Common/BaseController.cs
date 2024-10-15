@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace StayCation.API.VerticalSlicing.Common
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BaseController : ControllerBase
     {

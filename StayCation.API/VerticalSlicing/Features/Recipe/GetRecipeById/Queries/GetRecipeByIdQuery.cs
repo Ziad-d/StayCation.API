@@ -9,7 +9,7 @@ namespace StayCation.API.VerticalSlicing.Features.Recipe.GetRecipeById.Queries
     public record GetRecipeByIdQuery(int id) : IRequest<ResultDTO>;
     public class GetRecipeByIdQueryHandler : BaseRequestHandler<Data.Models.Recipe, GetRecipeByIdQuery, ResultDTO>
     {
-        public GetRecipeByIdQueryHandler(RequestParameters<Data.Models.Recipe> requestParameters, IRepository<Data.Models.Recipe> repository) : base(requestParameters, repository)
+        public GetRecipeByIdQueryHandler(RequestParameters<Data.Models.Recipe> requestParameters, IRepository<Data.Models.Recipe> repository) : base(requestParameters)
         {
         }
 

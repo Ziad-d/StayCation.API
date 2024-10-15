@@ -8,11 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.1.0" />
+    <Compile Remove="VerticalSlicing\Features\Common\**" />
+    <Content Remove="VerticalSlicing\Features\Common\**" />
+    <EmbeddedResource Remove="VerticalSlicing\Features\Common\**" />
+    <None Remove="VerticalSlicing\Features\Common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.1.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="MassTransit" Version="8.2.5" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
@@ -29,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="VerticalSlicing\Common\wwwroot\" />
-    <Folder Include="VerticalSlicing\Features\Common\" />
   </ItemGroup>
 
 </Project>
